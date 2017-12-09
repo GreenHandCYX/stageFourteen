@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <h1>token</h1>
+</body>
+</html>
+<script src="./node_modules/axios/dist/axios.js"></script>
+
+<script>
+
+  // 每次响应数据时，只要有token,就将它保存
+  axios.interceptors.response.use((res) => {
+    // 看res中有没有token
+    const token = res.data.token
+    if (!token) {
+      // alert('没有token')
+      return res
+    }
+    localStorage.setItem('token', token)
+    return res
+  })
+
+  // 每次请求，都统一，将token取出发给服务器
+  // axios.create({
+  // baseUrl
+  // headers: {
+  // }
+  // })
+  axios.interceptors.request.use(config => {
+    // {
+    //   var a = 3
+    // }
+    // {
+      // config.headers['content-Type'] = 'application/json'
+      // 读取token
+      const token = localStorage.getItem('token')
+      console.log(config)
+      config.url += '?token=' + token
+      // ReactNative AsyncStorage
+      // config.data.params.token = token
+        // config.transformRequest = [function (data) {
+        // data = data || {}
+        // data.params = data.params || {}
+        // data.params.token = token
+        // return JSON.stringify(data)
+      // }]
+    // }
+    return config
+  })
+</script>
+<script>
+  axios.get('/alluser').then(function () {
+      console.log('登陆了!')
+    })
+  setTimeout(function () {
+    axios.post('/signin', {
+      name: '小朋友',
+      pwd: 'sa1234567890'
+    }, {
+      // headers: {
+      //   'content-type': 'application/json'
+      // }
+    }).then(function (res) {
+      console.log(res)
+      console.log('登陆了!')
+    })
+  }, 1000)
+</script>
+<!-- // 原生的开发 -->
