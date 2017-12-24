@@ -42,7 +42,7 @@ IOS系统
 
 # gradle
 
-// node_modules
+
 
 1. 在C 盘当前用户文件夹中新建一个名为 `.gradle` 的文件夹
    需要把.grandle-wrapper中的内容解压到.gradle文件夹中
